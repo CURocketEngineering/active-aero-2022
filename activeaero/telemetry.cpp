@@ -41,7 +41,7 @@ void Telemetry::pollBNO() {
   }
 }
 
-std::map<std::string,std::vector<double>> Telemetry::getTelemetry() {
+TelemetryData Telemetry::getTelemetry() {
     std::map<std::string,std::vector<double>> telemetry;
     std::vector<double> acceleration;
     std::vector<double> gyroscope;

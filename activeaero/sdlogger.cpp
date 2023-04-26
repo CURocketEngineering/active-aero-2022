@@ -1,33 +1,35 @@
-// #include "sdlogger.h"
+#include "sdlogger.h"
 
-// void SDLogger::setup() {
-//   Serial.print("Initializing SD card...");
+void SDLogger::setup() {
+  Serial.print("Initializing SD card...");
 
-//   if (!SD.begin(10)) {
-//     Serial.println("Initialization failed!");
-//     while (1);
-//   }
-//   Serial.println("initialization done.");
+  if(!SD.begin(10)) {
+    Serial.println("Initialization failed!");
+  } else {
+    Serial.println("initialization done.");
+  }
 
-//   // open the file. note that only one file can be open at a time,
-//   // so you have to close this one before opening another.
-//   logFile = SD.open("logs.txt", FILE_WRITE);
+  logFile = SD.open("LOGS.TXT", FILE_WRITE, true);
 
-//   // if the file opened okay, write to it:
-//   if (logFile) {
-//     Serial.print("Opened Log");
-// }
-// }
+  if(logFile) {
+    Serial.print("Opened Log");
+  }
+}
 
-// bool SDLogger::write(std::string log) {
-//     if (logFile) {
-//         // logFile.println(toCharArray(log));
-//         return true;
-//     } else {
-//         return false;
-//     }
-// }
+bool SDLogger::write(std::string log) {
+    if (logFile) {
+        logFile.println(log.c_str());
+        return true;
+    } else {
+        return false;
+    }
+}
 
-// void SDLogger::close() {
-//     logFile.close();
-// }
+bool SDLogger::writeData(TelemetryData data, std::string flightStatus) {
+    std::string dataString = "";
+    return write(dataString);
+}
+
+void SDLogger::close() {
+    logFile.close();
+}

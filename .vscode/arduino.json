@@ -3,5 +3,5 @@
     "board": "esp32:esp32:feathers3",
     "programmer": "esptool",
     "sketch": "activeaero/activeaero.ino",
-    "port": "/dev/tty.usbmodem1101"
+    "port": "/dev/tty.usbmodem2101"
 }

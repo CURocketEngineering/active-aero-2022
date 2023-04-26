@@ -3,16 +3,16 @@
 #include "telemetry.h"
 #include "apogeeprediction.h"
 #include "flightstatus.h"
-// #include "sdlogger.h"
+#include "sdlogger.h"
 
 Servo aaservo;
 bool servoExtended = false;
 double timeServoExtended = 0;
 
 Telemetry telem;
-ApogeePrediction ap(17.23, 0.8, 0.02725801, 1371.6);
-FlightStatus fs;
-// SDLogger sd;
+ApogeePrediction apogeePrediction(17.23, 0.8, 0.02725801, 1371.6);
+FlightStatus flightStatus;
+SDLogger sdLogger;
 
 double lastTime = 0;
 double baseAlt;
@@ -29,7 +29,7 @@ void setup() {
 
   telem.setupTelem();
 
-  // sd.setup();
+  sdLogger.setup();
 
   delay(5000);
   std::map<std::string,std::vector<double>> telemData = telem.getTelemetry();
@@ -39,8 +39,12 @@ void setup() {
 }
 
 void loop() {
-  // sd.write("Hello World");
-  // put your main code here, to run repeatedly:
+  if(sdLogger.write("Hello World")) {
+    Serial.println("Wrote SD");
+  } else {
+    Serial.println("Failed to write SD");
+  }
+  
   telem.pollBNO();
   std::map<std::string,std::vector<double>> telemData = telem.getTelemetry();
 
@@ -50,7 +54,7 @@ void loop() {
   double temp = telemData["temperature"][0];
   double alt = telemData["altitude"][0] - baseAlt;
 
-  double predApogee = ap.predictApogee(accel, orien, press, temp, alt);
+  double predApogee = apogeePrediction.predictApogee(accel, orien, press, temp, alt);
 
   if(millis() > timeServoExtended + 250 && servoExtended) {
     pulseServo();

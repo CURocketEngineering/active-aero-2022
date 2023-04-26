@@ -11,7 +11,7 @@ class ApogeePrediction {
     double predApogee;
     double currentVelocity;
     double lastRecTime;
-
+    
     void eulerFromQuaternion(double *euler, double x, double y, double z, double w);
     void calcVelocity(double acceleration);
   public:

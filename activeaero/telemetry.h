@@ -10,6 +10,8 @@
 #include <Adafruit_BNO08x.h>
 #include "Adafruit_BMP3XX.h"
 
+typedef std::map<std::string,std::vector<double>> TelemetryData;
+
 class Telemetry {
   private:
     double baseAltitude;
